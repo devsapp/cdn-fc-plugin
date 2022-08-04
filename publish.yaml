@@ -7,8 +7,8 @@ Description: 利用阿里云cdn为阿里云fc提供域名加速服务
 HomePage: https://github.com/devsapp/website-fc
 Tags: #标签详情
   - Serverless Devs
-  - 核心模块
-Category: CDN
+  - CDN
+Category: 基础云服务
 Properties:
   required:
     - serviceName
