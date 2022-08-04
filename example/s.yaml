@@ -1,0 +1,19 @@
+edition: 1.0.0        #  命令行YAML规范版本，遵循语义化版本（Semantic Versioning）规范
+name: start-fc-cdn   #  项目名称
+access: default # 密钥别名
+
+vars: # 全局变量
+  domainName: cdn.xxx.xyz
+
+services:
+  cdn-service: # cdn 相关配置
+    component: cdn@dev  # 组件名称
+    actions: # 自定义执行逻辑
+      pre-deploy: # 在deploy之前运行
+        - plugin: ${path(..)}
+          args:
+            serviceName: vue-service
+            functionName: start-vue3
+    props: #  组件的属性值
+      cdnType: web
+      domainName: ${vars.domainName}
