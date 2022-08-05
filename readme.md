@@ -19,6 +19,7 @@ cdn-service: # cdn 相关配置
         args:
           serviceName: ${vars.serviceName}
           functionName: ${vars.functionName}
+          region: ${vars.region}
   props: #  组件的属性值
     cdnType: web
     domainName: ${vars.domainName}
@@ -31,6 +32,7 @@ cdn-service: # cdn 相关配置
 | --- | --- | --- |
 | serviceName | 函数计算服务名 | true |
 | functionName | 函数计算函数名 | true |
+| region | 函数计算部署地域 | true |
 
 <a name="dSXFD"></a>
 ## 配合website-fc使用案例
@@ -90,6 +92,7 @@ services:
           args:
             serviceName: ${vars.serviceName}
             functionName: ${vars.functionName}
+            region: ${vars.region}
     props: #  组件的属性值
       cdnType: web
       domainName: ${vars.domainName}

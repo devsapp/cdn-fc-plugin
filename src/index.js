@@ -1,11 +1,8 @@
-const core = require("@serverless-devs/core");
-const { CatchableError, lodash, fse, rimraf, getCredential, spinner, Logger } = core;
+const {CatchableError, lodash, fse, rimraf, getCredential, spinner, Logger} = require("@serverless-devs/core");
 const logger = new Logger("cdn-fc-plugin");
-const  fc = require('@alicloud/fc-open20210406')
-const FC_Open20210406 = fc.default;
-const ListCustomDomainsRequest = fc.ListCustomDomainsRequest;
+const {ListCustomDomainsRequest} = require('@alicloud/fc-open20210406')
+const FC_Open20210406 = require('@alicloud/fc-open20210406').default;
 const Config = require('@alicloud/openapi-client').Config;
-const SPINNER_VM = spinner('start action')
 /**
  * Plugin 插件入口
  * @param inputs 组件的入口参数
@@ -14,8 +11,9 @@ const SPINNER_VM = spinner('start action')
  */
 
 module.exports = async function index(inputs, args) {
-    const serviceName = args.serviceName;
-    const functionName = args.functionName;
+    const SPINNER_VM = spinner('cdn-fc-plugin start')
+
+    const {serviceName, functionName, region} = args;
 
     SPINNER_VM.start('cdn-fc-plugin working!')
 
@@ -38,10 +36,10 @@ module.exports = async function index(inputs, args) {
         securityToken: credentials.SecurityToken,
     });
     // 访问的域名
-    config.endpoint = `1656564022886445.cn-shenzhen.fc.aliyuncs.com`;
+    config.endpoint = `${credentials.AccountID}.${region}.fc.aliyuncs.com`;
 
     const client = new FC_Open20210406(config);
-    let listCustomDomainsRequest = new ListCustomDomainsRequest({ prefix: `${functionName}.${serviceName}`,  limit: 1});
+    let listCustomDomainsRequest = new ListCustomDomainsRequest({prefix: `${functionName}.${serviceName}`, limit: 1});
 
     const customDomains = (await client.listCustomDomains(listCustomDomainsRequest)).body.customDomains;
 
@@ -49,7 +47,9 @@ module.exports = async function index(inputs, args) {
         throw new CatchableError(`cannot find the service<${serviceName}> function <${functionName}> 's domainName `);
     }
 
-    const domainName = customDomains[0].domainName;
+    const customDomain = customDomains[0];
+
+    const domainName = customDomain.domainName;
     if (lodash.isEmpty(domainName)) {
         throw new CatchableError(`cannot find the service<${serviceName}> function <${functionName}> 's domainName `);
     }

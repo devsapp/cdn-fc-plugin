@@ -14,6 +14,7 @@ services:
           args:
             serviceName: vue-service
             functionName: start-vue3
+            region: cn-shenzhen
     props: #  组件的属性值
       cdnType: web
       domainName: ${vars.domainName}

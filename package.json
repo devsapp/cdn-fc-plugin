@@ -20,7 +20,8 @@
   ],
   "scripts": {
     "prebuild": "npm install rimraf --no-save && rimraf package-lock.json && rimraf node_modules && npm i",
-    "build": "rimraf -rf package-lock.json && rimraf -rf node_modules && npm install @alicloud/openapi-client @alicloud/fc-open20210406"
+    "postbuild": "rimraf -rf package-lock.json && rimraf -rf node_modules && npm install @alicloud/openapi-client @alicloud/fc-open20210406",
+    "build": "esbuild src/index.js --bundle --log-level=error --minify --platform=node --format=cjs --target=node10.4 --external:@serverless-devs/core --external:@alicloud/openapi-client --external:@alicloud/fc-open20210406 --outfile=dist/index.js"
   },
   "dependencies": {
     "@alicloud/fc-open20210406": "^1.1.8",
