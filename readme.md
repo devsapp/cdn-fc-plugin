@@ -19,6 +19,7 @@ cdn-service: # cdn 相关配置
         args:
           serviceName: ${vars.serviceName}
           functionName: ${vars.functionName}
+          region: ${vars.region}
   props: #  组件的属性值
     cdnType: web
     domainName: ${vars.domainName}
@@ -31,6 +32,7 @@ cdn-service: # cdn 相关配置
 | --- | --- | --- |
 | serviceName | 函数计算服务名 | true |
 | functionName | 函数计算函数名 | true |
+| region | 函数计算部署地域 | true |
 
 <a name="dSXFD"></a>
 ## 配合website-fc使用案例
@@ -90,6 +92,7 @@ services:
           args:
             serviceName: ${vars.serviceName}
             functionName: ${vars.functionName}
+            region: ${vars.region}
     props: #  组件的属性值
       cdnType: web
       domainName: ${vars.domainName}
@@ -101,3 +104,7 @@ services:
 
 
 ```
+### 源设置规则
++ 自定义域名的路由规则中存在一条路由的服务名，函数名与目标服务名和函数名相同且路由路径为`/*`直接设置为主源
++ 当自定义域名的路由规则的所有服务名都为目标服务名时，也可作为源，默认为备源，如所有源都为备源时，最新的一个源会改为主源
++ 权重按自定义域名由新到旧排序，新的自定义域名权重越大

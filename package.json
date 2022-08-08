@@ -1,0 +1,36 @@
+{
+  "name": "cdn-fc-plugin",
+  "version": "0.0.1",
+  "description": "This is a component demo for Serverless Devs Tool ",
+  "autoInstall": false,
+  "homepage": "https://www.serverless-devs.com",
+  "author": "Serverless-Devs",
+  "contributors": [],
+  "license": "MIT",
+  "main": "./src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "Serverless",
+    "Framework",
+    "Serverless-Devs",
+    "Serverless-Tool",
+    "Function Compute"
+  ],
+  "scripts": {
+    "prebuild": "npm install rimraf --no-save && rimraf package-lock.json && rimraf node_modules && npm i",
+    "postbuild": "rimraf -rf package-lock.json && rimraf -rf node_modules && npm install @alicloud/openapi-client @alicloud/fc-open20210406",
+    "build": "esbuild src/index.js --bundle --log-level=error --minify --platform=node --format=cjs --target=node10.4 --external:@serverless-devs/core --external:@alicloud/openapi-client --external:@alicloud/fc-open20210406 --outfile=dist/index.js"
+  },
+  "dependencies": {
+    "@alicloud/fc-open20210406": "^1.1.8",
+    "@alicloud/openapi-client": "^0.4.1",
+    "@alicloud/pop-core": "^1.7.12",
+    "@serverless-devs/core": "latest"
+  },
+  "devDependencies": {
+    "esbuild": "^0.13.8",
+    "rimraf": "^3.0.2"
+  }
+}
